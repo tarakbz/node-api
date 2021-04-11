@@ -1,23 +1,11 @@
 const express = require('express');
+const morgan = require('morgan')
 const {success} = require('./helper');
 const pokemons = require('./mock-pokemon');
 const app = express();
 
-// exemple plus simple
-// const logger = (req, res, next) => {
-//     console.log("Time: " + Date.now());
-//     console.log("Url: " + req.url);
-//     next();
-// }
-// // middleware application
-// app.use(logger);
 
-// middleware application
-app.use((req, res, next) => {
-    console.log("Time: " + Date.now());
-    console.log("Url: " + req.url);
-    next();
-});
+app.use(morgan('dev'));
 
 
 app.get("/", (req, res) => res.send("hello express 3"));
