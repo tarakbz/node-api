@@ -1,11 +1,15 @@
 const express = require('express');
-const morgan = require('morgan')
+const morgan = require('morgan');
+const favicon = require('serve-favicon')
+
 const {success} = require('./helper');
 const pokemons = require('./mock-pokemon');
 const app = express();
 
 
-app.use(morgan('dev'));
+app
+    .use(favicon(__dirname + '/favicon.ico'))
+    .use(morgan('dev'));
 
 
 app.get("/", (req, res) => res.send("hello express 3"));
