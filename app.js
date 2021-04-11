@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const favicon = require('serve-favicon')
 
-const {success} = require('./helper');
+const {success , getUniqueId} = require('./helper');
 const pokemons = require('./mock-pokemon');
 const app = express();
 
@@ -26,6 +26,13 @@ app.get("/pokemons", (req, res) => {
     const message = "la liste des pokemons a bien etait retourner";
     res.json(success(message, pokemons));
 });
+
+app.post('/pokemons', ((req, res) => {
+    const pokemonCreated = {...req.body, ...{id: getUniqueId(pokemons), created: new Date()}};
+    pokemons.push(pokemonCreated);
+    const message = "un pokemon a ete ajouter";
+    res.json(success(message, pokemonCreated));
+}))
 
 const port = 3000;
 app.listen(port, () => {
