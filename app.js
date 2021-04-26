@@ -13,6 +13,8 @@ app.use(favicon(__dirname + '/favicon.ico'))
 
 sequelize.initDb();
 
+require('./src/routes/findAllPokemons')(app);
+
 app.listen(port, () => {
     console.log("notre application ecoute http://localhost:" + port + "/")
 })
