@@ -46,6 +46,14 @@ app.put('/pokemons/:id', (req, res) => {
     res.json(success(message, pokemonUpdate));
 });
 
+app.delete('/pokemons/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const pokemonDeleted = pokemons.find(pokemon => pokemon.id === id);
+    pokemons = pokemons.filter(pokemon => pokemon.id !== id);
+    const message = "un pokemon a ete supprimer";
+    res.json(success(message, pokemonDeleted));
+});
+
 const port = 3000;
 app.listen(port, () => {
     console.log("notre application ecoute http://localhost:" + port + "/")
