@@ -31,16 +31,18 @@ sequelize.sync({force: true})
     .then(
         _ => {
             console.log("la base de donnees a bien etait synchronisee.");
-            // ajout d'un pokemon dans la table
-            Pokemon.create({
-                name: "Bulbizarre",
-                hp: 25,
-                cp: 5,
-                picture: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png",
-                types: ["Plante", "Poison"].join(),
-                created: new Date()
+            pokemons.map(pokemon => {
+                // ajout d'un pokemon dans la table
+                Pokemon.create({
+                    name: pokemon.name,
+                    hp: pokemon.hp,
+                    cp: pokemon.cp,
+                    picture: pokemon.picture,
+                    types: pokemon.types.join(),
+                    created: new Date()
+                }).then(pokemon => console.log(pokemon.toJSON()))
+            });
 
-            }).then(bulbizarre => console.log(bulbizarre.toJSON()))
         }
     );
 
