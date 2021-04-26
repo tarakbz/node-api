@@ -1,15 +1,17 @@
 const express = require('express');
 const morgan = require('morgan');
-const favicon = require('serve-favicon')
+const favicon = require('serve-favicon');
+const bodyParser = require('body-parser');
 
-const {success , getUniqueId} = require('./helper');
-const pokemons = require('./mock-pokemon');
+const {success, getUniqueId} = require('./helper');
+let pokemons = require('./mock-pokemon');
 const app = express();
 
 
 app
     .use(favicon(__dirname + '/favicon.ico'))
-    .use(morgan('dev'));
+    .use(morgan('dev'))
+    .use(bodyParser.json());
 
 
 app.get("/", (req, res) => res.send("hello express 3"));
@@ -27,12 +29,22 @@ app.get("/pokemons", (req, res) => {
     res.json(success(message, pokemons));
 });
 
-app.post('/pokemons', ((req, res) => {
+app.post('/pokemons', (req, res) => {
     const pokemonCreated = {...req.body, ...{id: getUniqueId(pokemons), created: new Date()}};
     pokemons.push(pokemonCreated);
     const message = "un pokemon a ete ajouter";
     res.json(success(message, pokemonCreated));
-}))
+});
+
+app.put('/pokemons/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const pokemonUpdate = {...req.body, id: id};
+    pokemons = pokemons.map(pokemon => {
+        return pokemon.id === id ? pokemonUpdate : pokemon
+    });
+    const message = "un pokemon a ete modifier";
+    res.json(success(message, pokemonUpdate));
+});
 
 const port = 3000;
 app.listen(port, () => {
