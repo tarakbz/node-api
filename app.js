@@ -2,27 +2,36 @@ const express = require('express');
 const morgan = require('morgan');
 const favicon = require('serve-favicon');
 const bodyParser = require('body-parser');
-const {Sequelize} = require("sequelize");
+const {Sequelize, DataTypes} = require("sequelize");
 
 const {success, getUniqueId} = require('./helper');
 let pokemons = require('./mock-pokemon');
 
-const app = express();
-
+// models
+const PokemonModel = require('./src/models/pokemon');
 
 const sequelize = new Sequelize(
-   'pokedex',
+    'pokedex',
     'root',
     '',
     {
         host: 'localhost',
-        dialect : 'mysql'
+        dialect: 'mysql'
     }
 );
 
 sequelize.authenticate()
     .then(_ => console.log("connection a la base de donnees a bien ete effectuer"))
     .catch(error => console.log('Impossible de se connecter a la base de donnees ' + error));
+
+// creation de la table
+const Pokemon = PokemonModel(sequelize, DataTypes);
+
+sequelize.sync({force: true})
+    .then(_ => console.log("la base de donnees a bien etait synchronisee."));
+
+const app = express();
+
 
 app
     .use(favicon(__dirname + '/favicon.ico'))
