@@ -19,6 +19,10 @@ require('./src/routes/findPokemonByPk')(app);
 
 require('./src/routes/createPokemon')(app);
 
+require('./src/routes/updatePokemon')(app);
+
+require('./src/routes/deletePokemon')(app);
+
 app.listen(port, () => {
     console.log("notre application ecoute http://localhost:" + port + "/")
 })
