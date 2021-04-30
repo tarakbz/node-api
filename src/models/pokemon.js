@@ -11,7 +11,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         hp: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            validate : {
+                isInt : { msg: "utiliser uniquement des nombres entier pour le hp"},
+                notNull : {msg : "les points de vie sont une proprietee requise"}
+            }
         },
         cp: {
             type: DataTypes.INTEGER,
