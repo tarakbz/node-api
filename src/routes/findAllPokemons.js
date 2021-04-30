@@ -1,11 +1,15 @@
-const { Pokemon } = require('../db/sequelize')
+const {Pokemon} = require('../db/sequelize')
 
 module.exports = (app) => {
     app.get('/api/pokemons', (req, res) => {
         Pokemon.findAll()
             .then(pokemons => {
                 const message = 'La liste des pokémons a bien été récupérée.'
-                res.json({ message, data: pokemons })
+                res.json({message, data: pokemons})
+            })
+            .catch(error => {
+                const message = "la list des pokémons n'a pas pu etre récupérée";
+                res.status(500).json({message, data: error})
             })
     })
 }

@@ -13,6 +13,7 @@ app.use(favicon(__dirname + '/favicon.ico'))
 
 sequelize.initDb();
 
+// Endpoints
 require('./src/routes/findAllPokemons')(app);
 
 require('./src/routes/findPokemonByPk')(app);
@@ -22,6 +23,12 @@ require('./src/routes/createPokemon')(app);
 require('./src/routes/updatePokemon')(app);
 
 require('./src/routes/deletePokemon')(app);
+
+// Errors 404
+app.use(({res}) => {
+    const message = "Ressource introuvable!";
+    res.status(404).json({message});
+})
 
 app.listen(port, () => {
     console.log("notre application ecoute http://localhost:" + port + "/")
