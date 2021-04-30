@@ -1,3 +1,14 @@
+const validTypes = [
+    "Plante" ,
+    "Poison" ,
+    "Feu",
+    "Eau",
+    "Insecte",
+    "Normal",
+    "Vol",
+    "Electrik",
+    "Fée"
+]
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('Pokemon', {
         id: {
@@ -18,7 +29,15 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             validate: {
                 isInt: {msg: "utiliser uniquement des nombres entier pour les points de vie"},
-                notNull: {msg: "les points de vie sont une proprietee requise"}
+                notNull: {msg: "les points de vie sont une proprietee requise"},
+                min: {
+                    args: [1],
+                    msg: "les points de vie ne peuvent pas etres inferieur a 1"
+                },
+                max: {
+                    args: [99],
+                    msg: "les points de vie sont limiter a 99"
+                }
             }
         },
         cp: {
@@ -27,6 +46,14 @@ module.exports = (sequelize, DataTypes) => {
             validate: {
                 isInt: {msg: "utiliser uniquement des nombres entier pour les points de degats"},
                 notNull: {msg: "les points de degats sont une proprietee requise"}
+            },
+            min: {
+                args: [1],
+                msg: "les points de degats ne peuvent pas etres inferieur a 1"
+            },
+            max: {
+                args: [10],
+                msg: "les points de degats sont limiter a 99"
             }
         },
         picture: {
@@ -45,6 +72,23 @@ module.exports = (sequelize, DataTypes) => {
             },
             set(types) {
                 this.setDataValue('types', types.join())
+            }
+            ,
+            validate: {
+                isTypeValide(value){
+                    if(!value){
+                        throw  new Error("un pokemon doit avoir au moins un type")
+                    }
+                    if(value.split(",").length > 3){
+                        throw  new Error("un pokemon doit avoir maximum 3 types")
+                    }
+                    value.split(",").forEach(type =>{
+                        if(!validTypes.includes(type)){
+                            throw  new Error("le type "+ type + " est invalide il doit appartenir a cette liste " + validTypes)
+                        }
+                    })
+
+                }
             }
         }
     }, {
