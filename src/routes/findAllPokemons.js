@@ -15,14 +15,15 @@ module.exports = (app) => {
                         [Op.like]: '%' + name + '%'
                     }
                 },
-                limit: limit
+                limit: limit,
+                order: [['name', 'ASC']]
             })
                 .then(({count, rows}) => {
                     const message = 'il y a ' + count + ' pokémons qui correspondent a votre recherche ' + name;
                     res.json({message, data: rows})
                 })
         }
-        Pokemon.findAll()
+        Pokemon.findAll({order: ['name']})
             .then(pokemons => {
                 const message = 'La liste des pokémons a bien été récupérée.'
                 res.json({message, data: pokemons})
