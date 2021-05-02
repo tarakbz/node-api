@@ -6,10 +6,10 @@ module.exports = (app) => {
         if (req.query.name) {
             const name = req.query.name;
             let limit = 5;
-            if(req.query.limit){
+            if (req.query.limit) {
                 limit = parseInt(req.query.limit);
             }
-            return Pokemon.findAll({
+            return Pokemon.findAndCountAll({
                 where: {
                     name: {
                         [Op.like]: '%' + name + '%'
@@ -17,9 +17,9 @@ module.exports = (app) => {
                 },
                 limit: limit
             })
-                .then(pokemons => {
-                    const message = 'il y a ' + pokemons.length + ' pokémons qui correspondent a votre recherche ' + name;
-                    res.json({message, data: pokemons})
+                .then(({count, rows}) => {
+                    const message = 'il y a ' + count + ' pokémons qui correspondent a votre recherche ' + name;
+                    res.json({message, data: rows})
                 })
         }
         Pokemon.findAll()
