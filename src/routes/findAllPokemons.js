@@ -1,13 +1,14 @@
 const {Op} = require("sequelize");
 const {Pokemon} = require('../db/sequelize')
+const auth = require('../auth/auth')
 
 module.exports = (app) => {
-    app.get('/api/pokemons', (req, res) => {
+    app.get('/api/pokemons', auth, (req, res) => {
         if (req.query.name) {
             const name = req.query.name;
-            const  limit = parseInt(req.query.limit) || 5;
+            const limit = parseInt(req.query.limit) || 5;
 
-            if(name.length < 2){
+            if (name.length < 2) {
                 const message = 'la recherche doit contenir 2 caracteres ou plus.'
                 return res.status(400).json({message})
             }
