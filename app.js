@@ -20,6 +20,7 @@ require('./src/routes/createPokemon')(app);
 require('./src/routes/updatePokemon')(app);
 require('./src/routes/deletePokemon')(app);
 require('./src/routes/login')(app);
+require('./src/routes/signup')(app);
 
 // Errors 404
 app.use(({res}) => {
