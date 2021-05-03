@@ -22,6 +22,7 @@ if (process.env.NODE_ENV === 'production') {
 const Pokemon = PokemonModel(sequelize, DataTypes);
 const User = UserModel(sequelize, DataTypes);
 
+// Init DB
 const initDb = () => {
     return sequelize.sync(optionSync).then(_ => {
         console.log('Init DB')
