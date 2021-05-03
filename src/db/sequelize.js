@@ -4,10 +4,18 @@ const PokemonModel = require('../models/pokemon')
 const UserModel = require('../models/user')
 const pokemons = require('./mock-pokemon')
 
-const sequelize = new Sequelize('pokedex', 'root', '', {
-    host: 'localhost',
-    dialect: 'mysql'
-})
+let sequelize;
+if (process.env.NODE_ENV === 'production') {
+    sequelize = new Sequelize('uexjzy0dai45cqob', 'nfhpkekbddyem6z9', 'at7xku2vtyf68bn1', {
+        host: 'y5svr1t2r5xudqeq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+        dialect: 'mysql'
+    })
+} else {
+    sequelize = new Sequelize('pokedex', 'root', '', {
+        host: 'localhost',
+        dialect: 'mysql'
+    })
+}
 
 const Pokemon = PokemonModel(sequelize, DataTypes);
 const User = UserModel(sequelize, DataTypes);
