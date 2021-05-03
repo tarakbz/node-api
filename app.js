@@ -9,6 +9,11 @@ app.use(bodyParser.json());
 
 sequelize.initDb();
 
+app.get('/', (req, res) => {
+    const message = "hello pokedex!";
+    res.json({message});
+});
+
 // Endpoints
 require('./src/routes/findAllPokemons')(app);
 require('./src/routes/findPokemonByPk')(app);
