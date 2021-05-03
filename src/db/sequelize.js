@@ -5,6 +5,7 @@ const UserModel = require('../models/user')
 const pokemons = require('./mock-pokemon')
 
 let sequelize;
+let optionSync;
 if (process.env.NODE_ENV === 'production') {
     sequelize = new Sequelize('uexjzy0dai45cqob', 'nfhpkekbddyem6z9', 'at7xku2vtyf68bn1', {
         host: 'y5svr1t2r5xudqeq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
@@ -15,13 +16,14 @@ if (process.env.NODE_ENV === 'production') {
         host: 'localhost',
         dialect: 'mysql'
     })
+    optionSync = {force: true};
 }
 
 const Pokemon = PokemonModel(sequelize, DataTypes);
 const User = UserModel(sequelize, DataTypes);
 
 const initDb = () => {
-    return sequelize.sync({force: true}).then(_ => {
+    return sequelize.sync(optionSync).then(_ => {
         console.log('Init DB')
         pokemons.map(pokemon => {
             Pokemon.create({
