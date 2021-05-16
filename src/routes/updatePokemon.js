@@ -3,7 +3,8 @@ const {Pokemon} = require('../db/sequelize')
 const auth = require('../auth/auth')
 
 module.exports = (app) => {
-    app.put('/api/pokemons/:id', auth, (req, res) => {
+    // ajouter ici auth pour la securite 
+    app.put('/api/pokemons/:id', (req, res) => {
         const id = req.params.id
         Pokemon.update(req.body, {
             where: {id: id}
