@@ -24,7 +24,7 @@ const User = UserModel(sequelize, DataTypes);
 
 // Init DB
 const initDb = () => {
-    return sequelize.sync(optionSync).then(_ => {
+    return sequelize.sync({force: true}).then(_ => {
         console.log('Init DB')
         pokemons.map(pokemon => {
             Pokemon.create({
