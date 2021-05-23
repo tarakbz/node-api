@@ -1,13 +1,6 @@
 const validTypes = [
-    "Plante" ,
-    "Poison" ,
-    "Feu",
-    "Eau",
-    "Insecte",
-    "Normal",
-    "Vol",
-    "Electrik",
-    "Fée"
+    'Plante', 'Feu', 'Eau', 'Insecte', 'Normal', 'Electrik',
+    'Poison', 'Fée', 'Vol', 'Combat', 'Psy'
 ]
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('Pokemon', {
@@ -56,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             max: {
                 args: [10],
-                msg: "les points de degats sont limiter a 99"
+                msg: "les points de degats sont limiter a 10"
             }
         },
         picture: {
